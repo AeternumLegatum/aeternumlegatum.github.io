@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Legacy</title>
+    <!-- Dynamic Favicon -->
+    <link id="dynamic-favicon" rel="icon" type="image/svg+xml" href="images/blacklegacy.svg">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -12,11 +14,25 @@
 
     <!-- Centered Logo -->
     <div class="logo-container">
-        <!-- Test with both inline SVG and external SVG -->
         <img src="images/legacy.svg" alt="Logo" width="800" height="800">
     </div>
 
     <script>
+        // Favicon Switching Logic
+        const favicon = document.getElementById('dynamic-favicon');
+        const favicons = ["images/blacklegacy.svg", "images/whitelegacy.svg"]; // Array of favicon paths
+        let currentFaviconIndex = 0;
+
+        function switchFavicon() {
+            // Cycle through the favicon paths
+            currentFaviconIndex = (currentFaviconIndex + 1) % favicons.length;
+            favicon.href = favicons[currentFaviconIndex];
+        }
+
+        // Switch favicon every 1 second (1000ms)
+        setInterval(switchFavicon, 1000);
+
+        // Star Animation Logic
         const canvas = document.getElementById('stars');
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
