@@ -1,16 +1,34 @@
+/* Star Animation Styles */
 body {
     margin: 0;
-    padding: 0;
-    background-color: black; 
+    overflow: hidden;
+    height: 100vh;
+    background-color: black;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    color: white; 
+    position: relative;
+}
+canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0; /* Background layer */
 }
 
-img {
-    max-width: 80%;
-    height: auto;
-    filter: opacity(0.8);
+/* Centered Logo Styles */
+.logo-container {
+    position: absolute; /* Keeps it in place */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Centers it exactly */
+    z-index: 3; /* Highest layer to ensure it’s on top of everything */
+    text-align: center;
+}
+.logo-container img {
+    max-width: 800px; /* Increased size */
+    height: auto; /* Maintain aspect ratio */
+    display: block;
 }
