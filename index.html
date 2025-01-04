@@ -3,10 +3,107 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Logo Page</title>
+    <title>Logo with Star Background</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <img src="images/legacy.svg" alt="Logo">
+    <!-- Star Animation -->
+    <canvas id="stars"></canvas>
+
+    <!-- Centered Logo -->
+    <div class="logo-container">
+        <!-- Test with both inline SVG and external SVG -->
+        <img src="images/legacy.svg" alt="Logo" width="800" height="800">
+    </div>
+
+    <script>
+        const canvas = document.getElementById('stars');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const ctx = canvas.getContext('2d');
+        let stars = [];
+
+        const minNumStars = 250,
+              maxNumStars = 1500,
+              minMaxStarSize = 0.3,
+              maxMaxStarSize = 1.3,
+              minMaxStarSpeed = 0.1,
+              maxMaxStarSpeed = 1,
+              minMaxStarOpacity = 0.8,
+              maxMaxStarOpacity = 1;
+
+        let fps = 0,
+            frameCount = 0,
+            lastTime = performance.now(),
+            fpsHistory = [],
+            numStars = 80;
+
+        function updateFps() {
+            const now = performance.now();
+            const elapsed = now - lastTime;
+            if (elapsed > 1000) {
+                fps = frameCount;
+                frameCount = 0;
+                lastTime = now;
+                fpsHistory.push(fps);
+                if (fpsHistory.length > 15) {
+                    fpsHistory.shift();
+                }
+                const avgFps = fpsHistory.reduce((a, b) => a + b, 0) / fpsHistory.length;
+                numStars = Math.floor((avgFps / 60) * 1500);
+                if (numStars > stars.length) {
+                    for (let i = stars.length; i < numStars; i++) {
+                        stars.push(new Star());
+                    }
+                } else if (numStars < stars.length) {
+                    stars.splice(numStars, stars.length - numStars);
+                }
+            }
+            frameCount++;
+        }
+
+        class Star {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * (maxMaxStarSize - minMaxStarSize) + minMaxStarSize;
+                this.speed = Math.random() * (maxMaxStarSpeed - minMaxStarSpeed) + minMaxStarSpeed;
+                this.opacity = Math.random() * (maxMaxStarOpacity - minMaxStarOpacity) + minMaxStarOpacity;
+                this.color = `rgb(${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)})`;
+            }
+
+            update() {
+                this.x -= this.speed;
+                if (this.x < -this.size) {
+                    this.x = canvas.width + this.size;
+                    this.y = Math.random() * canvas.height;
+                }
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
+                ctx.fill();
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < stars.length; i++) {
+                stars[i].update();
+                stars[i].draw();
+            }
+            updateFps();
+            requestAnimationFrame(animate);
+        }
+
+        for (let i = 0; i < numStars; i++) {
+            stars.push(new Star());
+        }
+
+        requestAnimationFrame(animate);
+    </script>
 </body>
 </html>
