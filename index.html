@@ -29,6 +29,7 @@
             cursor: pointer;
             text-decoration: none;
             transition: transform 0.2s ease-in-out, background 0.2s ease-in-out;
+            z-index: 10; /* Ensure buttons are on top */
         }
 
         .glass-button:hover {
@@ -52,6 +53,8 @@
             position: fixed;
             top: 0;
             left: 0;
+            z-index: 1; /* Ensure it is behind interactive elements */
+            pointer-events: none; /* Prevent canvas from blocking interactions */
         }
 
         /* Centered logo container */
@@ -60,6 +63,7 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
+            z-index: 5; /* Ensure it is behind buttons but above canvas */
         }
     </style>
 </head>
