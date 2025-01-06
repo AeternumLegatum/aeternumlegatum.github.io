@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+
+    <!-- Dynamic Favicon -->
+    <link id="dynamic-favicon" rel="icon" type="image/svg+xml" href="images/blacklegacy.svg">
+    
+    <style>
+        /* General Styles */
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #000; /* Black background */
+            overflow: hidden;
+            position: relative; /* For positioning buttons */
+        }
+
+        /* Particles Background */
+        #particles-js {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1; /* Background layer */
+        }
+
+        /* Transparent UI Container */
+        .signup-container {
+            position: relative; /* Allows layering on top of particles */
+            z-index: 2; /* Foreground layer */
+            background: rgba(255, 255, 255, 0.1); /* Semi-transparent background */
+            backdrop-filter: blur(10px); /* Apple-like blur effect */
+            -webkit-backdrop-filter: blur(10px); /* Safari support */
+            border-radius: 15px;
+            padding: 2rem;
+            width: 100%;
+            max-width: 400px; /* Form width */
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5); /* Soft shadow */
+            height: auto; /* Adjust height to content */
+        }
+
+        .signup-container h1 {
+            color: #fff;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+            margin-top: 0.5rem; /* Add top margin to create space between heading and form */
+        }
+
+        /* Form Styles */
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        form input,
+        form select {
+            width: calc(100% - 20px); /* Same padding as the container */
+            padding: 0.8rem;
+            font-size: 1rem;
+            border: none;
+            border-radius: 8px;
+            background: rgba(0, 0, 0, 0.3); /* Semi-transparent input background */
+            color: #fff;
+        }
+
+        form input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        form input:focus,
+        form select:focus {
+            outline: none;
+            background: rgba(0, 0, 0, 0.5); /* Slightly darker on focus */
+        }
+
+        /* Phone Number Section */
+        .phone-group {
+            display: flex;
+            gap: 10px; /* Adds spacing between fields */
+            width: 101%; /* Ensures consistent alignment */
+        }
+
+        .phone-group select {
+            flex: 1; /* Extension dropdown */
+            padding: 0.8rem;
+        }
+
+        .phone-group input {
+            flex: 4; /* Phone number input takes more space */
+            padding: 0.8rem;
+        }
+
+        /* Submit Button */
+        form button {
+            width: 101%; /* Same padding as inputs */
+            padding: 0.8rem;
+            font-size: 1rem;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            background: rgba(0, 0, 0, 0.2); /* Dark gray to match the container */
+            backdrop-filter: blur(8px); /* Balanced blur */
+            -webkit-backdrop-filter: blur(8px); /* Safari support */
+            color: #fff;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.2s ease;
+        }
+
+        form button:hover {
+            background: rgba(0, 0, 0, 0.1); /* Slightly lighter on hover */
+            transform: scale(1.05); /* Slight scaling effect */
+        }
+
+        /* Error Message */
+        .error-message {
+            color: #ff4d4d;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+            display: none; /* Hidden by default */
+        }
+
+        /* Sign Up Footer */
+        .signup-footer {
+            text-align: center;
+            margin-top: 1.5rem;
+            color: #fff;
+        }
+
+        .signup-footer a {
+            color: #4caf50;
+            text-decoration: none;
+        }
+
+        .signup-footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <!-- Particles Background -->
+    <div id="particles-js"></div>
+    <!-- Signup Form -->
+    <div class="signup-container">
+        <h1>Log In</h1>
+        <form id="signup-form" action="#" method="POST">
+            <!-- Username Field -->
+            <div class="form-group">
+                <input type="text" id="username" name="username" placeholder="Username" required>
+            </div>
+
+            <!-- Email Field -->
+            <div class="form-group">
+                <input type="password" id="password" name="password" placeholder="Password" required>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit">Log In</button>
+        </form>
+
+<!-- 
+        <div class="signup-footer">
+            <p>Already have an account? <a href="https://99legacy.com/login" target="_blank">Log In</a></p>
+        </div>
+    </div>
+-->
+
+    <!-- Include particles.js -->
+    <script src="particles.min.js"></script>
+    <script>
+        // Initialize particles.js
+        particlesJS.load('particles-js', 'particles.json', function() {
+            console.log('Particles.js configuration loaded.');
+        });
+
+        // JavaScript for Signup Form Validation
+        const form = document.getElementById('signup-form');
+        const inviteCodeInput = document.getElementById('invite-code');
+        const errorMessage = document.getElementById('error-message');
+
+        form.addEventListener('submit', function (event) {
+            event.preventDefault();
+            const inviteCode = inviteCodeInput.value.trim();
+            if (inviteCode !== "VALIDCODE") {
+                errorMessage.style.display = 'block';
+                inviteCodeInput.style.border = '2px solid #ff4d4d';
+            } else {
+                errorMessage.style.display = 'none';
+                inviteCodeInput.style.border = 'none';
+                alert('Form submitted successfully!');
+                form.submit();
+            }
+        });
+
+        inviteCodeInput.addEventListener('input', function () {
+            errorMessage.style.display = 'none';
+            inviteCodeInput.style.border = 'none';
+        });
+
+        // Dynamic Favicon Switcher
+        const favicon = document.getElementById('dynamic-favicon');
+        const iconSwitchTimes = 5;
+        let iconSwitchCount = 0;
+        setInterval(() => {
+            iconSwitchCount++;
+            const newFavicon = iconSwitchCount % 2 === 0
+                ? "images/blacklegacy.svg"
+                : "images/whitelegacy.svg";
+            favicon.setAttribute("href", newFavicon);
+        }, 1000);  // Change every second
+    </script>
+</body>
+</html>

@@ -7,10 +7,69 @@
     <!-- Dynamic Favicon -->
     <link id="dynamic-favicon" rel="icon" type="image/svg+xml" href="images/blacklegacy.svg">
     <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Glassmorphism effect for buttons */
+        .glass-button {
+            position: absolute;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: transform 0.2s ease-in-out, background 0.2s ease-in-out;
+        }
+
+        .glass-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
+        }
+
+        /* Positioning buttons */
+        .signup-button {
+            top: 20px;
+            left: 20px;
+        }
+
+        .login-button {
+            top: 20px;
+            right: 20px;
+        }
+
+        /* For star canvas */
+        #stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+        }
+
+        /* Centered logo container */
+        .logo-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+    </style>
 </head>
 <body>
     <!-- Star Animation -->
     <canvas id="stars"></canvas>
+
+    <!-- Sign Up and Log In Buttons -->
+    <a href="signup.html" class="glass-button signup-button">Sign Up</a>
+    <a href="login.html" class="glass-button login-button">Log In</a>
 
     <!-- Centered Logo -->
     <div class="logo-container">
