@@ -86,23 +86,6 @@
             background: rgba(0, 0, 0, 0.5); /* Slightly darker on focus */
         }
 
-        /* Phone Number Section */
-        .phone-group {
-            display: flex;
-            gap: 10px; /* Adds spacing between fields */
-            width: 101%; /* Ensures consistent alignment */
-        }
-
-        .phone-group select {
-            flex: 1; /* Extension dropdown */
-            padding: 0.8rem;
-        }
-
-        .phone-group input {
-            flex: 4; /* Phone number input takes more space */
-            padding: 0.8rem;
-        }
-
         /* Submit Button */
         form button {
             width: 101%; /* Same padding as inputs */
@@ -128,7 +111,9 @@
         .error-message {
             color: #ff4d4d;
             font-size: 0.9rem;
-            margin-top: 0.5rem;
+            margin-top: 1rem; /* Adjust spacing */
+            margin-bottom: 1.5rem; /* Ensure spacing between error and button */
+            text-align: center; /* Center align the error message */
             display: none; /* Hidden by default */
         }
 
@@ -155,27 +140,24 @@
     <!-- Signup Form -->
     <div class="signup-container">
         <h1></h1>
-        <form id="signup-form" action="#" method="POST">
+        <form id="login-form" action="#" method="POST">
             <!-- Username Field -->
             <div class="form-group">
                 <input type="text" id="username" name="username" placeholder="Username" required>
             </div>
 
-            <!-- Email Field -->
+            <!-- Password Field -->
             <div class="form-group">
                 <input type="password" id="password" name="password" placeholder="Password" required>
             </div>
 
+            <!-- Error Message -->
+            <div class="error-message" id="error-message">Incorrect username or password</div>
+
             <!-- Submit Button -->
             <button type="submit">Log In</button>
         </form>
-
-<!-- 
-        <div class="signup-footer">
-            <p>Already have an account? <a href="https://99legacy.com/login" target="_blank">Log In</a></p>
-        </div>
     </div>
--->
 
     <!-- Include particles.js -->
     <script src="particles.min.js"></script>
@@ -185,28 +167,40 @@
             console.log('Particles.js configuration loaded.');
         });
 
-        // JavaScript for Signup Form Validation
-        const form = document.getElementById('signup-form');
-        const inviteCodeInput = document.getElementById('invite-code');
+        // JavaScript for Login Form Validation
+        const form = document.getElementById('login-form');
+        const usernameInput = document.getElementById('username');
+        const passwordInput = document.getElementById('password');
         const errorMessage = document.getElementById('error-message');
 
         form.addEventListener('submit', function (event) {
             event.preventDefault();
-            const inviteCode = inviteCodeInput.value.trim();
-            if (inviteCode !== "FUCKOFF") {
+            const username = usernameInput.value.trim();
+            const password = passwordInput.value.trim();
+
+            // Simple validation logic
+            if (username !== "admin" || password !== "password123") {
                 errorMessage.style.display = 'block';
-                inviteCodeInput.style.border = '2px solid #ff4d4d';
+                usernameInput.style.border = '2px solid #ff4d4d';
+                passwordInput.style.border = '2px solid #ff4d4d';
             } else {
                 errorMessage.style.display = 'none';
-                inviteCodeInput.style.border = 'none';
-                alert('Form submitted successfully!');
+                usernameInput.style.border = 'none';
+                passwordInput.style.border = 'none';
+                alert('Logged in successfully!');
                 form.submit();
             }
         });
 
-        inviteCodeInput.addEventListener('input', function () {
+        // Reset error message on input
+        usernameInput.addEventListener('input', function () {
             errorMessage.style.display = 'none';
-            inviteCodeInput.style.border = 'none';
+            usernameInput.style.border = 'none';
+        });
+
+        passwordInput.addEventListener('input', function () {
+            errorMessage.style.display = 'none';
+            passwordInput.style.border = 'none';
         });
 
         // Dynamic Favicon Switcher
