@@ -147,6 +147,29 @@
         .signup-footer a:hover {
             text-decoration: underline;
         }
+
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            .signup-container {
+                padding: 1.5rem;
+                width: calc(100% - 40px); /* Add padding on sides */
+            }
+
+            .signup-container h1 {
+                font-size: 1.5rem;
+            }
+
+            form input,
+            form select {
+                font-size: 0.9rem;
+                padding: 0.7rem;
+            }
+
+            form button {
+                font-size: 0.9rem;
+                padding: 0.7rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -154,7 +177,7 @@
     <div id="particles-js"></div>
     <!-- Signup Form -->
     <div class="signup-container">
-        <h1></h1>
+        <h1>Sign Up</h1>
         <form id="signup-form" action="#" method="POST">
             <!-- Phone Number Section -->
             <div class="form-group phone-group">
@@ -184,13 +207,7 @@
             <!-- Submit Button -->
             <button type="submit">Sign Up</button>
         </form>
-
-<!-- 
-        <div class="signup-footer">
-            <p>Already have an account? <a href="https://99legacy.com/login" target="_blank">Log In</a></p>
-        </div>
     </div>
--->
 
     <!-- Include particles.js -->
     <script src="particles.min.js"></script>
