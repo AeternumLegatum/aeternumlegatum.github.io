@@ -107,11 +107,23 @@
 
         // Star Animation Logic
         const canvas = document.getElementById('stars');
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+        let stars = [];
+        function resizeCanvas() {
+            // Resize the canvas to fill the window
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            // Randomize existing star positions to fit new dimensions
+            if (stars.length) {
+                for (let i = 0; i < stars.length; i++) {
+                    stars[i].x = Math.random() * canvas.width;
+                    stars[i].y = Math.random() * canvas.height;
+                }
+            }
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
 
         const ctx = canvas.getContext('2d');
-        let stars = [];
 
         const minNumStars = 250,
               maxNumStars = 1500,
@@ -140,7 +152,8 @@
                     fpsHistory.shift();
                 }
                 const avgFps = fpsHistory.reduce((a, b) => a + b, 0) / fpsHistory.length;
-                numStars = Math.floor((avgFps / 60) * 1500);
+                const target = Math.floor((avgFps / 60) * maxNumStars);
+                numStars = Math.max(minNumStars, Math.min(maxNumStars, target));
                 if (numStars > stars.length) {
                     for (let i = stars.length; i < numStars; i++) {
                         stars.push(new Star());
@@ -188,11 +201,45 @@
             requestAnimationFrame(animate);
         }
 
-        for (let i = 0; i < numStars; i++) {
-            stars.push(new Star());
+        // Estimate initial FPS quickly using a few rAF samples, then spawn full star count immediately
+        function estimateInitialFps(samples = 3, callback) {
+            let count = 0;
+            let lastTime = 0;
+            let totalDelta = 0;
+            function step(now) {
+                if (lastTime) {
+                    totalDelta += (now - lastTime);
+                    count++;
+                    if (count >= samples) {
+                        const avgDelta = totalDelta / count;
+                        // Constrain FPS estimate to a sensible range
+                        const fpsEstimate = Math.max(30, Math.min(120, 1000 / avgDelta));
+                        callback(fpsEstimate);
+                        return;
+                    }
+                }
+                lastTime = now;
+                requestAnimationFrame(step);
+            }
+            requestAnimationFrame(step);
         }
 
-        requestAnimationFrame(animate);
+        // Use the initial FPS estimate to decide how many stars to create right away
+        function bootstrapStars() {
+            estimateInitialFps(3, (fpsEstimate) => {
+                const target = Math.floor((fpsEstimate / 60) * maxNumStars);
+                // Clamp to declared min/max
+                numStars = Math.max(minNumStars, Math.min(maxNumStars, target));
+
+                for (let i = 0; i < numStars; i++) {
+                    stars.push(new Star());
+                }
+
+                requestAnimationFrame(animate);
+            });
+        }
+
+        bootstrapStars();
     </script>
 </body>
 </html>
